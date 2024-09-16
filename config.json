@@ -1,0 +1,335 @@
+mqtt:
+  enabled: false
+
+#ffmpeg:
+  #hwaccel_args: preset-vaapi
+
+birdseye:
+  # Optional: Enable birdseye view (default: shown below)
+  enabled: true
+  mode: continuous
+  quality: 10
+objects:
+  # Optional: list of objects to track from labelmap.txt (default: shown below)
+  track:
+  - person
+  - car
+detectors:
+  coral:
+    type: edgetpu
+    device: pci
+cameras:
+  Entrada:
+    birdseye:
+      enabled: true
+    enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-udp
+      #hwaccel_args: preset-vaapi
+      inputs:
+      - path: rtsp://admin:admin@192.168.1.11:554/onvif1
+        input_args: preset-rtsp-udp
+        roles:
+        - detect
+        - record
+    detect:
+      # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
+      width: 1280
+      # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
+      height: 720
+      # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+      # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+      fps: 15
+    record:
+      enabled: true
+      events:
+        required_zones:
+        - entrada_portao
+        - portao_rua
+      retain:
+        days: 30
+        mode: motion
+    zones:
+      # Required: name of the zone
+      # NOTE: This must be different than any camera names, but can match with another zone on another
+      #       camera.
+      entrada_portao:
+        inertia: 1
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 868,221,866,127,1280,50,1280,720,447,720,359,720,296,419
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+        - car
+      portao_rua:
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 341,566,838,399,786,180,283,303
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+
+  Garagem:
+    birdseye:
+      enabled: false
+    enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-udp
+      #hwaccel_args: preset-vaapi
+      inputs:
+      - path: rtsp://admin:admin@192.168.1.12:554/onvif1
+        input_args: preset-rtsp-udp
+        roles:
+        - detect
+        - record
+    detect:
+      # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
+      width: 1280
+      # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
+      height: 720
+      # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+      # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+      fps: 15
+    record:
+      enabled: true
+      events:
+        required_zones:
+        - entrada_casa
+      retain:
+        days: 30
+        mode: motion
+    zones:
+      # Required: name of the zone
+      # NOTE: This must be different than any camera names, but can match with another zone on another
+      #       camera.
+      entrada_casa:
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 309,720,0,720,0,55,377,0,484,0,1205,0,1280,720,922,720
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+  
+  Galinheiro:
+    birdseye:
+      enabled: false
+    enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-udp
+      #hwaccel_args: preset-vaapi
+      inputs:
+      - path: rtsp://admin:admin@192.168.1.13:554/onvif1
+        input_args: preset-rtsp-udp
+        roles:
+        - detect
+        - record
+    detect:
+      # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
+      width: 1280
+      # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
+      height: 720
+      # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+      # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+      fps: 15
+    record:
+      enabled: true
+      events:
+        required_zones:
+        - galinheiro
+      retain:
+        days: 30
+        mode: motion
+    zones:
+      # Required: name of the zone
+      # NOTE: This must be different than any camera names, but can match with another zone on another
+      #       camera.
+      galinheiro:
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 444,720,0,570,0,394,0,159,415,0,733,0,1280,0,1280,720
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+  AtrasCasa:
+    birdseye:
+      enabled: false
+    enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-udp
+      #hwaccel_args: preset-vaapi
+      inputs:
+      - path: rtsp://admin:admin@192.168.1.14:554/onvif1
+        input_args: preset-rtsp-udp
+        roles:
+        - detect
+        - record
+    detect:
+      # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
+      width: 1280
+      # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
+      height: 720
+      # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+      # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+      fps: 15
+    record:
+      enabled: true
+      events:
+        required_zones:
+        - atrascasa
+      retain:
+        days: 30
+        mode: motion
+    zones:
+      # Required: name of the zone
+      # NOTE: This must be different than any camera names, but can match with another zone on another
+      #       camera.
+      atrascasa:
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 444,720,0,720,0,394,0,137,415,0,733,0,1280,0,1280,720
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+        - car
+  Portao:
+    birdseye:
+      enabled: false
+    enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-udp
+      #hwaccel_args: preset-vaapi
+      inputs:
+      - path: rtsp://admin:admin@192.168.1.15:554/onvif1
+        input_args: preset-rtsp-udp
+        roles:
+        - detect
+        - record
+    detect:
+      # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
+      width: 1280
+      # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
+      height: 720
+      # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+      # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+      fps: 15
+    record:
+      enabled: true
+      events:
+        required_zones:
+        - rua
+      retain:
+        days: 30
+        mode: motion
+    zones:
+      # Required: name of the zone
+      # NOTE: This must be different than any camera names, but can match with another zone on another
+      #       camera.
+      rua:
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 444,720,0,570,0,394,0,159,415,0,733,0,1280,0,1280,720
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+  Cana:
+    birdseye:
+      enabled: false
+    enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-udp
+      #hwaccel_args: preset-vaapi
+      inputs:
+      - path: rtsp://admin:admin@192.168.1.16:554/onvif1   
+        input_args: preset-rtsp-udp
+        roles:
+        - detect
+        - record
+    detect:
+      # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
+      width: 1280
+      # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
+      height: 720
+      # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+      # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+      fps: 15
+    record:
+      enabled: true
+      events:
+        required_zones:
+        - cana
+      retain:
+        days: 30
+        mode: motion
+    zones:
+      # Required: name of the zone
+      # NOTE: This must be different than any camera names, but can match with another zone on another
+      #       camera.
+      cana:
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 444,720,0,720,0,394,0,159,415,0,733,0,1280,0,1280,720
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+        - car
+  Quintal:
+    birdseye:
+      enabled: false
+    enabled: true
+    ffmpeg:
+      input_args: preset-rtsp-udp
+      #hwaccel_args: preset-vaapi
+      inputs:
+      - path: rtsp://admin:admin@192.168.1.17:554/onvif1
+        input_args: preset-rtsp-udp
+        roles:
+        - detect
+        - record
+    detect:
+      # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
+      width: 1280
+      # Optional: height of the frame for the input with the detect role (default: use native stream resolution)
+      height: 720
+      # Optional: desired fps for your camera for the input with the detect role (default: shown below)
+      # NOTE: Recommended value of 5. Ideally, try and reduce your FPS on the camera.
+      fps: 15
+      stationary:
+        # Optional: Frequency for confirming stationary objects (default: same as threshold)
+        # When set to 1, object detection will run to confirm the object still exists on every frame.
+        # If set to 10, object detection will run to confirm the object still exists on every 10th frame.
+        interval: 30
+        # Optional: Number of frames without a position change for an object to be considered stationary (default: 10x the frame rate or 10s)
+        threshold: 30
+        # Optional: Define a maximum number of frames for tracking a stationary object (default: not set, track forever)
+        # This can help with false positives for objects that should only be stationary for a limited amount of time.
+        # It can also be used to disable stationary object tracking. For example, you may want to set a value for person, but leave
+        # car at the default.
+        # WARNING: Setting these values overrides default behavior and disables stationary object tracking.
+        #          There are very few situations where you would want it disabled. It is NOT recommended to
+        #          copy these values from the example config into your config unless you know they are needed.
+        max_frames:
+          # Optional: Default for all object types (default: not set, track forever)
+          default: 500
+    record:
+      enabled: true
+      events:
+        required_zones:
+        - quintal
+      retain:
+        days: 30
+        mode: motion
+    zones:
+      # Required: name of the zone
+      # NOTE: This must be different than any camera names, but can match with another zone on another
+      #       camera.
+      quintal:
+        # Required: List of x,y coordinates to define the polygon of the zone.
+        # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
+        coordinates: 444,720,0,720,0,394,0,159,415,0,733,0,1280,0,1280,720
+        # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
+        objects:
+        - person
+        - car
+motion:
+  mask: 433,0,397,94,0,127,0,0
