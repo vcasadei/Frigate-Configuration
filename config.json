@@ -12,8 +12,10 @@ birdseye:
 objects:
   # Optional: list of objects to track from labelmap.txt (default: shown below)
   track:
-  - person
-  - car
+    - person
+    - car
+    - motorcycle
+    - bicycle
 detectors:
   coral:
     type: edgetpu
@@ -27,11 +29,11 @@ cameras:
       input_args: preset-rtsp-udp
       #hwaccel_args: preset-vaapi
       inputs:
-      - path: rtsp://admin:admin@192.168.1.11:554/onvif1
-        input_args: preset-rtsp-udp
-        roles:
-        - detect
-        - record
+        - path: rtsp://admin:1793152311a@192.168.1.189:554/onvif1
+          input_args: preset-rtsp-udp
+          roles:
+            - detect
+            - record
     detect:
       # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
       width: 1280
@@ -42,10 +44,6 @@ cameras:
       fps: 15
     record:
       enabled: true
-      events:
-        required_zones:
-        - entrada_portao
-        - portao_rua
       retain:
         days: 30
         mode: motion
@@ -60,16 +58,23 @@ cameras:
         coordinates: 868,221,866,127,1280,50,1280,720,447,720,359,720,296,419
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
-        - car
+          - person
+          - car
+          - motorcycle
+          - bicycle
       portao_rua:
         # Required: List of x,y coordinates to define the polygon of the zone.
         # NOTE: Presence in a zone is evaluated only based on the bottom center of the objects bounding box.
         coordinates: 341,566,838,399,786,180,283,303
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
+          - person
 
+    review:
+      alerts:
+        required_zones:
+          - entrada_portao
+          - portao_rua
   Garagem:
     birdseye:
       enabled: false
@@ -78,11 +83,11 @@ cameras:
       input_args: preset-rtsp-udp
       #hwaccel_args: preset-vaapi
       inputs:
-      - path: rtsp://admin:admin@192.168.1.12:554/onvif1
-        input_args: preset-rtsp-udp
-        roles:
-        - detect
-        - record
+        - path: rtsp://admin:1793152311a@192.168.1.136:554/onvif1
+          input_args: preset-rtsp-udp
+          roles:
+            - detect
+            - record
     detect:
       # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
       width: 1280
@@ -93,9 +98,6 @@ cameras:
       fps: 15
     record:
       enabled: true
-      events:
-        required_zones:
-        - entrada_casa
       retain:
         days: 30
         mode: motion
@@ -109,8 +111,12 @@ cameras:
         coordinates: 309,720,0,720,0,55,377,0,484,0,1205,0,1280,720,922,720
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
-  
+          - person
+
+    review:
+      alerts:
+        required_zones:
+          - entrada_casa
   Galinheiro:
     birdseye:
       enabled: false
@@ -119,11 +125,11 @@ cameras:
       input_args: preset-rtsp-udp
       #hwaccel_args: preset-vaapi
       inputs:
-      - path: rtsp://admin:admin@192.168.1.13:554/onvif1
-        input_args: preset-rtsp-udp
-        roles:
-        - detect
-        - record
+        - path: rtsp://admin:1793152311a@192.168.1.152:554/onvif1
+          input_args: preset-rtsp-udp
+          roles:
+            - detect
+            - record
     detect:
       # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
       width: 1280
@@ -134,9 +140,6 @@ cameras:
       fps: 15
     record:
       enabled: true
-      events:
-        required_zones:
-        - galinheiro
       retain:
         days: 30
         mode: motion
@@ -150,7 +153,11 @@ cameras:
         coordinates: 444,720,0,570,0,394,0,159,415,0,733,0,1280,0,1280,720
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
+          - person
+    review:
+      alerts:
+        required_zones:
+          - galinheiro
   AtrasCasa:
     birdseye:
       enabled: false
@@ -159,11 +166,11 @@ cameras:
       input_args: preset-rtsp-udp
       #hwaccel_args: preset-vaapi
       inputs:
-      - path: rtsp://admin:admin@192.168.1.14:554/onvif1
-        input_args: preset-rtsp-udp
-        roles:
-        - detect
-        - record
+        - path: rtsp://admin:1793152311a@192.168.1.186:554/onvif1
+          input_args: preset-rtsp-udp
+          roles:
+            - detect
+            - record
     detect:
       # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
       width: 1280
@@ -174,9 +181,6 @@ cameras:
       fps: 15
     record:
       enabled: true
-      events:
-        required_zones:
-        - atrascasa
       retain:
         days: 30
         mode: motion
@@ -190,8 +194,14 @@ cameras:
         coordinates: 444,720,0,720,0,394,0,137,415,0,733,0,1280,0,1280,720
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
-        - car
+          - person
+          - car
+          - motorcycle
+          - bicycle
+    review:
+      alerts:
+        required_zones:
+          - atrascasa
   Portao:
     birdseye:
       enabled: false
@@ -200,11 +210,11 @@ cameras:
       input_args: preset-rtsp-udp
       #hwaccel_args: preset-vaapi
       inputs:
-      - path: rtsp://admin:admin@192.168.1.15:554/onvif1
-        input_args: preset-rtsp-udp
-        roles:
-        - detect
-        - record
+        - path: rtsp://admin:1793152311a@192.168.1.153:554/onvif1
+          input_args: preset-rtsp-udp
+          roles:
+            - detect
+            - record
     detect:
       # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
       width: 1280
@@ -215,9 +225,6 @@ cameras:
       fps: 15
     record:
       enabled: true
-      events:
-        required_zones:
-        - rua
       retain:
         days: 30
         mode: motion
@@ -231,7 +238,11 @@ cameras:
         coordinates: 444,720,0,570,0,394,0,159,415,0,733,0,1280,0,1280,720
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
+          - person
+    review:
+      alerts:
+        required_zones:
+          - rua
   Cana:
     birdseye:
       enabled: false
@@ -240,11 +251,11 @@ cameras:
       input_args: preset-rtsp-udp
       #hwaccel_args: preset-vaapi
       inputs:
-      - path: rtsp://admin:admin@192.168.1.16:554/onvif1   
-        input_args: preset-rtsp-udp
-        roles:
-        - detect
-        - record
+        - path: rtsp://admin:1793152311a@192.168.1.188:554/onvif1
+          input_args: preset-rtsp-udp
+          roles:
+            - detect
+            - record
     detect:
       # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
       width: 1280
@@ -255,9 +266,6 @@ cameras:
       fps: 15
     record:
       enabled: true
-      events:
-        required_zones:
-        - cana
       retain:
         days: 30
         mode: motion
@@ -271,8 +279,14 @@ cameras:
         coordinates: 444,720,0,720,0,394,0,159,415,0,733,0,1280,0,1280,720
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
-        - car
+          - person
+          - car
+          - motorcycle
+          - bicycle
+    review:
+      alerts:
+        required_zones:
+          - cana
   Quintal:
     birdseye:
       enabled: false
@@ -281,11 +295,11 @@ cameras:
       input_args: preset-rtsp-udp
       #hwaccel_args: preset-vaapi
       inputs:
-      - path: rtsp://admin:admin@192.168.1.17:554/onvif1
-        input_args: preset-rtsp-udp
-        roles:
-        - detect
-        - record
+        - path: rtsp://admin:1793152311a@192.168.1.161:554/onvif1
+          input_args: preset-rtsp-udp
+          roles:
+            - detect
+            - record
     detect:
       # Optional: width of the frame for the input with the detect role (default: use native stream resolution)
       width: 1280
@@ -313,9 +327,6 @@ cameras:
           default: 500
     record:
       enabled: true
-      events:
-        required_zones:
-        - quintal
       retain:
         days: 30
         mode: motion
@@ -329,7 +340,12 @@ cameras:
         coordinates: 444,720,0,720,0,394,0,159,415,0,733,0,1280,0,1280,720
         # Optional: Number of consecutive frames required for object to be considered present in the zone (default: shown below).
         objects:
-        - person
-        - car
+          - person
+          - car
+    review:
+      alerts:
+        required_zones:
+          - quintal
 motion:
   mask: 433,0,397,94,0,127,0,0
+version: 0.15-1

@@ -2,8 +2,8 @@ version: "3.9"
 
 services:
   frigate:
-    container_name: frigate
-    image: ghcr.io/blakeblackshear/frigate:stable
+    container_name: frigate_new
+    image: ghcr.io/blakeblackshear/frigate:0.15.1
     privileged: true
     cap_add:
       - CAP_PERFMON
@@ -12,13 +12,13 @@ services:
     volumes:
       - /dev/apex_0:/dev/apex_0
       - /etc/localtime:/etc/localtime:ro
-      - /DATA/AppData/frigate/config:/config
-      - /DATA/AppData/frigate/media:/media
+      - /frigate/DATA/AppData/frigate/config:/config
+      - /frigate/DATA/AppData/frigate/media:/media
     ports:
       - "80:5000" # Web UI
       - "8554:8554" # RTSP feeds
       - "8555:8555/tcp" # WebRTC over tcp
       - "8555:8555/udp" # WebRTC over udp
     environment:
-      - FRIGATE_RTSP_PASSWORD="password"
+      - FRIGATE_RTSP_PASSWORD="1793152311"
       - LIBVA_DRIVER_NAME=i965
