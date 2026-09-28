@@ -1,102 +1,55 @@
 
 # Frigate Configuration on Radxa X2L (Debian 12 + Coral PCIe)
 
-This repository contains my configuration files and scripts for running Frigate NVR on a **Radxa X2L board** with **Debian 12** and a **Google Coral PCIe TPU**.
+This is the live configuration for a home security NVR: **8 IP cameras**, motion + zone-based alerting, and license-plate recognition (LPR), running on [Frigate](https://frigate.video/) in Docker on a **Radxa X2L** board (Debian 12, Google Coral PCIe TPU). It's been in production for 2+ years.
 
 The setup includes:
 
--   Minimal Debian 12 installation
-    
--   Coral PCIe driver installation and verification
-    
--   Docker + Docker Compose setup
-    
--   Frigate configuration with multiple cameras, zones, and motion‑based recording
-    
+-   Minimal Debian 12 install with a dedicated partition for recordings
+-   Coral PCIe TPU for object detection
+-   8 cameras with per-camera zones, motion masks, and license-plate recognition
+-   A `tmpfs` mount that keeps Frigate's recording cache in RAM instead of the OS disk (see [Operations](docs/OPERATIONS.md#why-the-os-disk-stays-safe-now) — this is the fix for a disk-fill bug that recurred for two years, see [Issue #1](https://github.com/vcasadei/Frigate-Configuration/issues/1))
 -   Temperature monitoring script for the Coral TPU
-    
 
 ## 📂 Repository Contents
 
--   **README.md** → Project overview and documentation
-    
--   **config.yml** → Frigate configuration (cameras, zones, detectors, recording, LPR settings)
-    
--   **coralTemp.sh** → Bash script to monitor Coral PCIe TPU temperature in real time
-    
--   **docker-compose.yml** → Docker Compose file to run Frigate with Coral TPU support
-    
--   **.env.example** → Template for the camera/RTSP credentials that `docker-compose.yml` injects into `config.yml`; real secrets live only in a local, gitignored `.env`
-    
--   **secrets.env.enc** → Encrypted backup of the real credentials + LPR plate numbers (see [Secrets backup](#-secrets-backup) below)
+| File | Purpose |
+|---|---|
+| `docker-compose.yml` | Runs Frigate with Coral TPU passthrough and the tmpfs cache fix |
+| `config.yml` | Frigate configuration — cameras, zones, detectors, recording, LPR (secrets redacted, see below) |
+| `.env.example` | Template for the credentials `docker-compose.yml` injects into `config.yml` |
+| `secrets.env.enc` | Encrypted backup of the real credentials + LPR plate numbers |
+| `coralTemp.sh` | Monitors Coral PCIe TPU temperature in real time |
+| `docs/DEPLOYMENT.md` | Full deployment guide — prerequisites, partitioning, first-time setup |
+| `docs/SECRETS.md` | How credentials are redacted, stored, restored, and rotated |
+| `docs/OPERATIONS.md` | Upgrades, rollback, disk safety, camera troubleshooting |
 
 ## 🚀 Quick Start
 
-1.  Clone the repo:
-    ```bash
-    git clone https://github.com/vcasadei/Frigate-Configuration.git
-    cd Frigate-Configuration
-    ```
+See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** for the full guide (host directories, hardware prerequisites, secrets, first boot). Short version once prerequisites are met:
 
-2.  Set up credentials:
-    ```bash
-    cp .env.example .env
-    # edit .env with real camera credentials
-    ```
+```bash
+git clone https://github.com/vcasadei/Frigate-Configuration.git
+cd Frigate-Configuration
+cp .env.example .env   # fill in real credentials — see docs/SECRETS.md
+sudo mkdir -p /FRIGATE_DATA/config /frigate/media
+sudo cp config.yml /FRIGATE_DATA/config/config.yaml
+docker compose up -d
+```
 
-3.  Start Frigate:
-    
-    ```bash
-    docker compose up -d
-    ```
-    
-4.  Access the Frigate UI at:
-    
-    ```
-    http://<your-ip>
-    ```
-    
+Access the UI at `http://<your-server-ip>`.
 
 ## 🧩 Hardware & Software
 
 -   **Board:** Radxa X2L
-    
--   **OS:** Debian 12 (Bookworm, kernel 6.1 LTS)
-    
+-   **OS:** Debian 12 (Bookworm, kernel 6.1 LTS) — see [Issue #2](https://github.com/vcasadei/Frigate-Configuration/issues/2) for the full install/partitioning walkthrough
 -   **Accelerator:** Google Coral PCIe TPU
-    
 -   **Frigate:** v0.18.0 (Docker container)
 
--   `/tmp/cache` is mounted as a 1GB `tmpfs` so Frigate's recording-segment buffer stays in RAM instead of silently filling the OS disk.
-    
+## 📖 More docs
 
-## 🔐 Secrets Backup
-
-`secrets.env.enc` is an AES-256 encrypted backup of the real RTSP credentials and LPR license plate values (the ones redacted from `config.yml`/`.env.example`). It's safe to keep in this public repo since it's ciphertext, but the passphrase is not stored anywhere in git — keep it in a password manager.
-
-To restore the real values:
-
-```bash
-openssl enc -d -aes-256-cbc -pbkdf2 -in secrets.env.enc -out secrets.env
-```
-
-To update the backup after rotating a credential:
-
-```bash
-openssl enc -aes-256-cbc -pbkdf2 -salt -in secrets.env -out secrets.env.enc
-```
-
-## 📖 Documentation
-
-Detailed installation notes are available in Issue #2. This covers:
-
--   Debian installation and partitioning
-    
--   Post‑install setup (`sudo`, SSH, utilities)
-    
--   Coral PCIe driver installation
-    
--   Docker + Frigate setup
-    
--   Frigate configuration with zones and motion masks
-  
+-   **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** — prerequisites, partitioning, first-time setup
+-   **[docs/SECRETS.md](docs/SECRETS.md)** — credential redaction, encrypted backup, rotation
+-   **[docs/OPERATIONS.md](docs/OPERATIONS.md)** — upgrades, rollback, disk safety, camera issues
+-   **[Issue #1](https://github.com/vcasadei/Frigate-Configuration/issues/1)** — history of the disk-fill incident and root cause
+-   **[Issue #2](https://github.com/vcasadei/Frigate-Configuration/issues/2)** — Debian install and disk partitioning notes
