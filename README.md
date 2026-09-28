@@ -20,12 +20,13 @@ The setup includes:
 
 -   **README.md** → Project overview and documentation
     
--   **config.json** → Frigate configuration (cameras, zones, detectors, recording settings)
+-   **config.yml** → Frigate configuration (cameras, zones, detectors, recording, LPR settings)
     
 -   **coralTemp.sh** → Bash script to monitor Coral PCIe TPU temperature in real time
     
 -   **docker-compose.yml** → Docker Compose file to run Frigate with Coral TPU support
     
+-   **.env.example** → Template for the camera/RTSP credentials that `docker-compose.yml` injects into `config.yml`; real secrets live only in a local, gitignored `.env`
 
 ## 🚀 Quick Start
 
@@ -35,14 +36,19 @@ The setup includes:
     cd Frigate-Configuration
     ```
 
-    
-2.  Start Frigate:
+2.  Set up credentials:
+    ```bash
+    cp .env.example .env
+    # edit .env with real camera credentials
+    ```
+
+3.  Start Frigate:
     
     ```bash
     docker compose up -d
     ```
     
-3.  Access the Frigate UI at:
+4.  Access the Frigate UI at:
     
     ```
     http://<your-ip>
@@ -57,7 +63,9 @@ The setup includes:
     
 -   **Accelerator:** Google Coral PCIe TPU
     
--   **Frigate:** v0.15‑1 (Docker container)
+-   **Frigate:** v0.17.0 (Docker container)
+
+-   `/tmp/cache` is mounted as a 1GB `tmpfs` so Frigate's recording-segment buffer stays in RAM instead of silently filling the OS disk.
     
 
 ## 📖 Documentation

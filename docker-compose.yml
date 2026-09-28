@@ -1,12 +1,14 @@
 services:
   frigate:
     container_name: frigate
-    image: ghcr.io/blakeblackshear/frigate:0.15.1
+    image: ghcr.io/blakeblackshear/frigate:0.17.0
     privileged: true
     cap_add:
       - CAP_PERFMON
     restart: unless-stopped
     shm_size: "2g" # adjust based on the number of cameras and resolution
+    tmpfs:
+      - /tmp/cache:size=1g # keep recording cache off the OS disk to avoid filling it
     volumes:
       - /dev/apex_0:/dev/apex_0
       - /etc/localtime:/etc/localtime:ro
@@ -18,5 +20,7 @@ services:
       - "8555:8555/tcp" # WebRTC over tcp
       - "8555:8555/udp" # WebRTC over udp
     environment:
-      - FRIGATE_RTSP_PASSWORD=REDACTED_RTSP_PASSWORD
+      - FRIGATE_RTSP_PASSWORD=${FRIGATE_RTSP_PASSWORD}
+      - FRIGATE_RTSP_USER=${FRIGATE_RTSP_USER}
+      - FRIGATE_CAMERA_RTSP_PASSWORD=${FRIGATE_CAMERA_RTSP_PASSWORD}
       - LIBVA_DRIVER_NAME=i965
