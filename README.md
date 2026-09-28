@@ -27,6 +27,8 @@ The setup includes:
 -   **docker-compose.yml** → Docker Compose file to run Frigate with Coral TPU support
     
 -   **.env.example** → Template for the camera/RTSP credentials that `docker-compose.yml` injects into `config.yml`; real secrets live only in a local, gitignored `.env`
+    
+-   **secrets.env.enc** → Encrypted backup of the real credentials + LPR plate numbers (see [Secrets backup](#-secrets-backup) below)
 
 ## 🚀 Quick Start
 
@@ -67,6 +69,22 @@ The setup includes:
 
 -   `/tmp/cache` is mounted as a 1GB `tmpfs` so Frigate's recording-segment buffer stays in RAM instead of silently filling the OS disk.
     
+
+## 🔐 Secrets Backup
+
+`secrets.env.enc` is an AES-256 encrypted backup of the real RTSP credentials and LPR license plate values (the ones redacted from `config.yml`/`.env.example`). It's safe to keep in this public repo since it's ciphertext, but the passphrase is not stored anywhere in git — keep it in a password manager.
+
+To restore the real values:
+
+```bash
+openssl enc -d -aes-256-cbc -pbkdf2 -in secrets.env.enc -out secrets.env
+```
+
+To update the backup after rotating a credential:
+
+```bash
+openssl enc -aes-256-cbc -pbkdf2 -salt -in secrets.env -out secrets.env.enc
+```
 
 ## 📖 Documentation
 
