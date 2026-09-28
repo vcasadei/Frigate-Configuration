@@ -65,7 +65,7 @@ The setup includes:
     
 -   **Accelerator:** Google Coral PCIe TPU
     
--   **Frigate:** v0.17.0 (Docker container)
+-   **Frigate:** v0.18.0 (Docker container)
 
 -   `/tmp/cache` is mounted as a 1GB `tmpfs` so Frigate's recording-segment buffer stays in RAM instead of silently filling the OS disk.
     

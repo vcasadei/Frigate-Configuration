@@ -57,7 +57,11 @@ cameras:
         coordinates: 0,1,1,1,1,0,0.399,0,0.396,0.073,0,0.088
         objects: person
     motion:
-      mask: 0.396,0,0.398,0.064,0,0.07,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.396,0,0.398,0.064,0,0.07,0,0
     review:
       alerts:
         required_zones: PortaCasa
@@ -108,7 +112,11 @@ cameras:
           - entrada_portao
           - portao_rua
     motion:
-      mask: 0.27,0,0.271,0.053,0,0.049,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.27,0,0.271,0.053,0,0.049,0,0
 
   Garagem:
     enabled: true
@@ -147,7 +155,11 @@ cameras:
       alerts:
         required_zones: entrada_casa
     motion:
-      mask: 0.278,0,0.275,0.041,0,0.057,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.278,0,0.275,0.041,0,0.057,0,0
 
   Galinheiro:
     enabled: true
@@ -185,7 +197,11 @@ cameras:
       alerts:
         required_zones: galinheiro
     motion:
-      mask: 0.262,0,0.263,0.047,0,0.049,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.262,0,0.263,0.047,0,0.049,0,0
 
   AtrasCasa:
     enabled: true
@@ -229,7 +245,11 @@ cameras:
       alerts:
         required_zones: atrascasa
     motion:
-      mask: 0.265,0,0.266,0.041,0,0.047,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.265,0,0.266,0.041,0,0.047,0,0
 
   Portao:
     enabled: true
@@ -268,7 +288,11 @@ cameras:
       alerts:
         required_zones: rua
     motion:
-      mask: 0.265,0,0.266,0.043,0,0.051,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.265,0,0.266,0.043,0,0.051,0,0
 
   Cana:
     enabled: true
@@ -310,7 +334,11 @@ cameras:
       alerts:
         required_zones: cana
     motion:
-      mask: 0.392,0,0.393,0.064,0,0.076,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.392,0,0.393,0.064,0,0.076,0,0
 
   Quintal:
     enabled: true
@@ -355,11 +383,15 @@ cameras:
       alerts:
         required_zones: quintal
     motion:
-      mask: 0.266,0,0.265,0.049,0,0.051,0,0
+      mask:
+        motion_mask_1:
+          friendly_name: Motion Mask 1
+          enabled: true
+          coordinates: 0.266,0,0.265,0.049,0,0.051,0,0
 
 motion:
   enabled: true
-version: 0.17-0
+version: 0.18-0
 semantic_search:
   enabled: false
   model_size: small
